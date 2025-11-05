@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:u3_p2_checador_asistencia/models/horario.dart';
 import 'package:u3_p2_checador_asistencia/controllers/controllerHorario.dart';
 import 'package:u3_p2_checador_asistencia/pages/addHorario.dart';
 
@@ -11,7 +11,8 @@ class Horarios extends StatefulWidget {
 }
 
 class _HorariosState extends State<Horarios> {
-  List<Horario> horarios = [];
+  List<Map<String, dynamic>> horarios = [];
+
   ControllerHorario controllerHorario = ControllerHorario();
   @override
   void initState() {
@@ -54,14 +55,79 @@ class _HorariosState extends State<Horarios> {
                       Text("Horarios (${horarios.length})"),
                       Expanded(
                         child: ListView(
+                          padding: EdgeInsets.symmetric(vertical: 10),
                           children: horarios
                               .map(
                                 (horario) => GestureDetector(
+                                  onTap: (){
+                                    //MANDAR A HORARIO
+                                  },
                                   child: Container(
                                     padding: EdgeInsets.all(12),
+                                    margin: EdgeInsets.only(bottom: 10),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(18),
-                                      color: Colors.indigoAccent[100],
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.shade200,
+                                          spreadRadius: 1.5,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        //HORA Y MATERIA
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            //HORA
+                                            Row(
+                                              children: [
+                                                Icon(Icons.timer),
+                                                SizedBox(width: 6),
+                                                Text(horario['HORA']),
+                                              ],
+                                            ),
+                                            //MATERIA
+                                            Container(
+                                              padding: EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                color: Colors.amberAccent[100],
+                                              ),
+                                              child: Text(
+                                                horario['NMAT'],
+                                                style: TextStyle(fontSize: 11),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        //PROFESOR
+                                        Row(
+                                          children: [
+                                            Icon(Icons.person_outline),
+                                            SizedBox(width: 6),
+                                            Text(horario['NOMBRE']),
+                                          ],
+                                        ),
+                                        //EDIFICIO Y SALON
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              CupertinoIcons.building_2_fill,
+                                            ),
+                                            SizedBox(width: 6),
+                                            Text(
+                                              "${horario['EDIFICIO']} - ${horario['SALON']}",
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -83,7 +149,5 @@ class _HorariosState extends State<Horarios> {
     setState(() {
       horarios = data;
     });
-
-    horarios.forEach((horario) => print("${horario.toJSON()} \n"));
   }
 }

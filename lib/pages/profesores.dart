@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:u3_p2_checador_asistencia/models/profesor.dart';
 import 'package:u3_p2_checador_asistencia/controllers/controllerProfesor.dart';
@@ -21,9 +22,10 @@ class _ProfesoresState extends State<Profesores> {
     "Industrial",
     "Arquitectura",
     "Civil",
-    "Cualquiera",
+    // "Cualquiera"
   ];
-  String? carreraSeleccionada = "Cualquiera";
+  // String? carreraSeleccionada = "Cualquiera";
+  String? carreraSeleccionada;
 
   @override
   void initState() {
@@ -58,30 +60,48 @@ class _ProfesoresState extends State<Profesores> {
 
           profesores.isEmpty
               ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("Profesores (${profesores.length})"),
-                    DropdownButton<String>(
-                      value: carreraSeleccionada,
-                      items: carreras
-                          .map(
-                            (carrera) => DropdownMenuItem<String>(
-                              child: Text(carrera),
-                              value: carrera,
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (x) {
-                        setState(() {
-                          carreraSeleccionada = x;
-                        });
-                        if (carreraSeleccionada == "Cualquiera") {
-                          actualizarProfesores();
-                          return;
-                        }
-                        filtrarProfesoresPorCarrera();
-                        return;
-                      },
+                    Row(
+                      children: [
+                        DropdownButton<String>(
+                          hint: Text("Carrera", style: TextStyle(fontSize: 13)),
+                          value: carreraSeleccionada,
+                          items: carreras
+                              .map(
+                                (carrera) => DropdownMenuItem<String>(
+                                  child: Text(
+                                    carrera,
+                                    style: TextStyle(fontSize: 13),
+                                  ),
+                                  value: carrera,
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (x) {
+                            setState(() {
+                              carreraSeleccionada = x;
+                            });
+                            // if (carreraSeleccionada == "Cualquiera") {
+                            //   actualizarProfesores();
+                            //   return;
+                            // }
+                            filtrarProfesoresPorCarrera();
+                            return;
+                          },
+                        ),
+                        SizedBox(width: 4),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              carreraSeleccionada = null;
+                            });
+                            actualizarProfesores();
+                          },
+                          icon: Icon(CupertinoIcons.clear, size: 20,)
+                        ),
+                      ],
                     ),
                   ],
                 )
@@ -91,30 +111,51 @@ class _ProfesoresState extends State<Profesores> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("Profesores (${profesores.length})"),
-                          DropdownButton<String>(
-                            value: carreraSeleccionada,
-                            items: carreras
-                                .map(
-                                  (carrera) => DropdownMenuItem<String>(
-                                    child: Text(carrera),
-                                    value: carrera,
-                                  ),
-                                )
-                                .toList(),
-                            onChanged: (x) {
-                              setState(() {
-                                carreraSeleccionada = x;
-                              });
-                              if (carreraSeleccionada == "Cualquiera") {
-                                actualizarProfesores();
-                                return;
-                              }
-                              filtrarProfesoresPorCarrera();
-                              return;
-                            },
+                          Row(
+                            children: [
+                              DropdownButton<String>(
+                                hint: Text(
+                                  "Carrera",
+                                  style: TextStyle(fontSize: 13),
+                                ),
+                                value: carreraSeleccionada,
+                                items: carreras
+                                    .map(
+                                      (carrera) => DropdownMenuItem<String>(
+                                        child: Text(
+                                          carrera,
+                                          style: TextStyle(fontSize: 13),
+                                        ),
+                                        value: carrera,
+                                      ),
+                                    )
+                                    .toList(),
+                                onChanged: (x) {
+                                  setState(() {
+                                    carreraSeleccionada = x;
+                                  });
+                                  // if (carreraSeleccionada == "Cualquiera") {
+                                  //   actualizarProfesores();
+                                  //   return;
+                                  // }
+                                  filtrarProfesoresPorCarrera();
+                                  return;
+                                },
+                              ),
+                              SizedBox(width: 4),
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    carreraSeleccionada = null;
+                                  });
+                                  actualizarProfesores();
+                                },
+                                  icon: Icon(CupertinoIcons.clear, size: 20,)
+                              ),
+                            ],
                           ),
                         ],
                       ),
