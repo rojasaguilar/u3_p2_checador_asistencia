@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:u3_p2_checador_asistencia/controllers/controllerHorario.dart';
 import 'package:u3_p2_checador_asistencia/controllers/controllerMateria.dart';
 import 'package:u3_p2_checador_asistencia/controllers/controllerProfesor.dart';
+import 'package:u3_p2_checador_asistencia/models/horario.dart';
 import 'package:u3_p2_checador_asistencia/models/materia.dart';
 import 'package:u3_p2_checador_asistencia/models/profesor.dart';
+import 'package:u3_p2_checador_asistencia/pages/addHorario.dart';
 import 'package:u3_p2_checador_asistencia/pages/addMateria.dart';
 import 'package:u3_p2_checador_asistencia/pages/addProfesor.dart';
 
@@ -16,9 +19,11 @@ class Materias extends StatefulWidget {
 class _MateriasState extends State<Materias> {
   List<Materia> materias = [];
   List<Profesor> profesores = [];
+  List<Horario> horarios = [];
 
   ControllerMateria controllerMateria = ControllerMateria();
   ControllerProfesor controllerProfesor = ControllerProfesor();
+  ControllerHorario controllerHorario = ControllerHorario();
 
   @override
   void initState() {
@@ -72,6 +77,26 @@ class _MateriasState extends State<Materias> {
             },
             child: Text("Agregar Profesor"),
           ),
+
+          FilledButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext co) {
+                    return Addhorario(
+                      onAdd: () {
+                        setState(() {
+                          actualizarProfesores();
+                        });
+                      },
+                    );
+                  },
+                ),
+              );
+            },
+            child: Text("Agregar Horarios"),
+          ),
         ],
       ),
     );
@@ -91,5 +116,11 @@ class _MateriasState extends State<Materias> {
     profesores = profesoresMap;
 
     profesores.forEach((profesor) => print("${profesor.toJSON()} \n"));
+  }
+
+  void actualizarHorarios() async {
+    horarios = await controllerHorario.obtenerHorarios();
+
+    horarios.forEach((horario) => print("${horario.toJSON()} \n"));
   }
 }
