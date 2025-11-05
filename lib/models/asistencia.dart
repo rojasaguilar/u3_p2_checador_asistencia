@@ -1,14 +1,14 @@
 class Asistencia {
   int? IDASISTENCIA;
   int NHORARIO;
-  String FECHA;
-  bool ASISTENCIA;
+  String? FECHA;
+  bool? ASISTENCIA;
 
   Asistencia({
     this.IDASISTENCIA,
     required this.NHORARIO,
-    required this.FECHA,
-    required this.ASISTENCIA,
+    this.FECHA,
+    this.ASISTENCIA,
   });
 
   factory Asistencia.fromJSON(Map<String, dynamic> json) {

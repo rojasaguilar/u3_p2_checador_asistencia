@@ -1,3 +1,4 @@
+import 'package:u3_p2_checador_asistencia/models/asistencia.dart';
 import 'package:u3_p2_checador_asistencia/models/horario.dart';
 import 'package:u3_p2_checador_asistencia/utils/basedatos.dart';
 
@@ -6,15 +7,32 @@ class ControllerHorario {
 
   Future<int> insertarHorario(Horario h) async {
     final db = await _bd.conectarDB();
-    return db.insert('HORARIO', h.toJSON());
+    try {
+      return await db.transaction((transac) async {
+        final idHorario = await transac.insert('HORARIO', h.toJSON());
+
+        Asistencia aTemp = Asistencia(NHORARIO: idHorario);
+        final idAsistencia = await transac.insert('ASISTENCIA', aTemp.toJSON());
+
+        if (idHorario == 0 || idAsistencia == 0) {
+          //SE DEBE LANZAR UNA EXCEPCION PARA CANCELAR LA TRANSACCIÓN
+          throw Exception('Error al insertar horario o asistencia');
+        }
+        return 1;
+      });
+    } catch (error) {
+      print(error);
+      return 0;
+    }
   }
 
   Future<List<Map<String, dynamic>>> obtenerHorarios() async {
     final db = await _bd.conectarDB();
     final data = await db.rawQuery('''
-    SELECT h.NHORARIO, h.HORA, h.EDIFICIO, h.NMAT, h.SALON, p.NOMBRE
+    SELECT h.NHORARIO, h.HORA, h.EDIFICIO, h.NMAT, h.SALON, p.NOMBRE, a.ASISTENCIA
     FROM HORARIO h
-    INNER JOIN PROFESOR p ON (p.NPROFESOR = h.NPROFESOR) 
+    INNER JOIN PROFESOR p ON (p.NPROFESOR = h.NPROFESOR)
+    INNER JOIN ASISTENCIA a ON (a.NHORARIO = h.NHORARIO) 
     ''', []);
     return data;
   }

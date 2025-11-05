@@ -4,7 +4,7 @@ import 'package:path/path.dart';
 class BD {
   Future<Database> conectarDB() async {
     return openDatabase(
-      join(await getDatabasesPath(), 'checador.db'),
+      join(await getDatabasesPath(), 'checador1_2.db'),
       version: 1,
       onConfigure: (db) async => await db.execute('PRAGMA foreign_keys = ON'),
       onCreate: (db, version) async {
@@ -40,7 +40,7 @@ class BD {
           '(IDASISTENCIA INTEGER PRIMARY KEY AUTOINCREMENT,'
           ' NHORARIO INT,'
           ' FECHA TEXT,'
-          ' ASISTENCIA INTEGER DEFAULT 0,'
+          ' ASISTENCIA INTEGER,'
           ' FOREIGN KEY (NHORARIO) REFERENCES HORARIO(NHORARIO)'
           ' ON DELETE CASCADE ON UPDATE CASCADE)',
         );

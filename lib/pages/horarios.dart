@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:u3_p2_checador_asistencia/controllers/controllerHorario.dart';
+import 'package:u3_p2_checador_asistencia/pages/PageHorario.dart';
 import 'package:u3_p2_checador_asistencia/pages/addHorario.dart';
 
 class Horarios extends StatefulWidget {
@@ -59,8 +60,19 @@ class _HorariosState extends State<Horarios> {
                           children: horarios
                               .map(
                                 (horario) => GestureDetector(
-                                  onTap: (){
+                                  onTap: () {
                                     //MANDAR A HORARIO
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (b) => Pagehorario(
+                                          horario: horario,
+                                          onUpdate: () {
+                                            actualizarHorarios();
+                                          },
+                                        ),
+                                      ),
+                                    );
                                   },
                                   child: Container(
                                     padding: EdgeInsets.all(12),
@@ -117,13 +129,47 @@ class _HorariosState extends State<Horarios> {
                                         ),
                                         //EDIFICIO Y SALON
                                         Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Icon(
-                                              CupertinoIcons.building_2_fill,
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  CupertinoIcons
+                                                      .building_2_fill,
+                                                ),
+                                                SizedBox(width: 6),
+                                                Text(
+                                                  "${horario['EDIFICIO']} - ${horario['SALON']}",
+                                                ),
+                                              ],
                                             ),
-                                            SizedBox(width: 6),
-                                            Text(
-                                              "${horario['EDIFICIO']} - ${horario['SALON']}",
+                                            Container(
+                                              padding: EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                              child:
+                                                  horario['ASISTENCIA'] == null
+                                                  ? Text(
+                                                      "Pendiente \n asistencia",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        fontSize: 11,
+                                                        color:
+                                                            Colors.amber[700],
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    )
+                                                  : Text(
+                                                      horario['ASISTENCIA'],
+                                                      style: TextStyle(
+                                                        fontSize: 11,
+                                                      ),
+                                                    ),
                                             ),
                                           ],
                                         ),
