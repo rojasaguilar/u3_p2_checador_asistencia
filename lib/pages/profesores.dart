@@ -24,7 +24,7 @@ class _ProfesoresState extends State<Profesores> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Padding(padding: EdgeInsets.all(20), child: Column(
       children: [
         FilledButton(
           onPressed: () {
@@ -46,29 +46,29 @@ class _ProfesoresState extends State<Profesores> {
 
         profesores.isEmpty
             ? Center(child: Text("No tienes profesores registrados"))
-            //LISTA DE PROFES
+        //LISTA DE PROFES
             : Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Profesores (${profesores.length})"),
-                    Expanded(
-                      child: ListView(
-                        children: profesores
-                            .map(
-                              (profe) => ListTile(
-                                title: Text("${profe.NOMBRE}"),
-                                subtitle: Text("${profe.CARRERA}"),
-                              ),
-                            )
-                            .toList(),
-                      ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Profesores (${profesores.length})"),
+              Expanded(
+                child: ListView(
+                  children: profesores
+                      .map(
+                        (profe) => ListTile(
+                      title: Text("${profe.NOMBRE}"),
+                      subtitle: Text("${profe.CARRERA}"),
                     ),
-                  ],
+                  )
+                      .toList(),
                 ),
               ),
+            ],
+          ),
+        ),
       ],
-    );
+    ));
   }
 
   void actualizarProfesores() async {

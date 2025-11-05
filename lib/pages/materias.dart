@@ -24,52 +24,55 @@ class _MateriasState extends State<Materias> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        FilledButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext co) {
-                  return Addmateria(
-                    onAdd: () {
-                      setState(() {
-                        actualizarMaterias();
-                      });
-                    },
-                  );
-                },
-              ),
-            );
-          },
-          child: Text("Agregar materia"),
-        ),
-
-        materias.isEmpty
-            ? Center(child: Text("No tienes materias registradas"))
-            //LISTA DE MATERIAS
-            : Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Materias (${materias.length})"),
-                    Expanded(
-                      child: ListView(
-                        children: materias
-                            .map(
-                              (materia) => ListTile(
-                                title: Text("${materia.NMAT}"),
-                                subtitle: Text("${materia.DESCRIPCION}"),
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    ),
-                  ],
+    return Padding(
+      padding: EdgeInsets.all(20),
+      child: Column(
+        children: [
+          FilledButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext co) {
+                    return Addmateria(
+                      onAdd: () {
+                        setState(() {
+                          actualizarMaterias();
+                        });
+                      },
+                    );
+                  },
                 ),
-              ),
-      ],
+              );
+            },
+            child: Text("Agregar materia"),
+          ),
+
+          materias.isEmpty
+              ? Center(child: Text("No tienes materias registradas"))
+              //LISTA DE MATERIAS
+              : Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Materias (${materias.length})"),
+                      Expanded(
+                        child: ListView(
+                          children: materias
+                              .map(
+                                (materia) => ListTile(
+                                  title: Text("${materia.NMAT}"),
+                                  subtitle: Text("${materia.DESCRIPCION}"),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+        ],
+      ),
     );
   }
 
