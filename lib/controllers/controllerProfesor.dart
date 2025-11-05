@@ -18,6 +18,18 @@ class ControllerProfesor {
         .toList();
   }
 
+  Future<List<Profesor>> filtrarPorCarrera(String carrera) async {
+    final db = await _bd.conectarDB();
+    final profesoresMap = await db.rawQuery(''' 
+    SELECT * FROM PROFESOR WHERE CARRERA  = ?
+    ''',
+      [carrera],
+    );
+    return profesoresMap
+        .map((profesor) => Profesor.fromJSON(profesor))
+        .toList();
+  }
+
   // Future<Profesor> obtenerProfesor() async{
   //   final db = await _bd.conectarDB();
   //   final profesores = await db.rawQuery(

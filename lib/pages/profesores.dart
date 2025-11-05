@@ -15,6 +15,16 @@ class _ProfesoresState extends State<Profesores> {
 
   ControllerProfesor controllerProfesor = ControllerProfesor();
 
+  List<String> carreras = [
+    "Sistemas",
+    "Mecatrónicia",
+    "Industrial",
+    "Arquitectura",
+    "Civil",
+    "Cualquiera",
+  ];
+  String? carreraSeleccionada = "Cualquiera";
+
   @override
   void initState() {
     // TODO: implement initState
@@ -24,51 +34,108 @@ class _ProfesoresState extends State<Profesores> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(padding: EdgeInsets.all(20), child: Column(
-      children: [
-        FilledButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext co) {
-                  return Addprofesor(
-                    onAdd: () {
-                      actualizarProfesores();
-                    },
-                  );
-                },
-              ),
-            );
-          },
-          child: Text("Agregar Profesores"),
-        ),
-
-        profesores.isEmpty
-            ? Center(child: Text("No tienes profesores registrados"))
-        //LISTA DE PROFES
-            : Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Profesores (${profesores.length})"),
-              Expanded(
-                child: ListView(
-                  children: profesores
-                      .map(
-                        (profe) => ListTile(
-                      title: Text("${profe.NOMBRE}"),
-                      subtitle: Text("${profe.CARRERA}"),
-                    ),
-                  )
-                      .toList(),
+    return Padding(
+      padding: EdgeInsets.all(20),
+      child: Column(
+        children: [
+          FilledButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext co) {
+                    return Addprofesor(
+                      onAdd: () {
+                        actualizarProfesores();
+                      },
+                    );
+                  },
                 ),
-              ),
-            ],
+              );
+            },
+            child: Text("Agregar Profesores"),
           ),
-        ),
-      ],
-    ));
+
+          profesores.isEmpty
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text("Profesores (${profesores.length})"),
+                    DropdownButton<String>(
+                      value: carreraSeleccionada,
+                      items: carreras
+                          .map(
+                            (carrera) => DropdownMenuItem<String>(
+                              child: Text(carrera),
+                              value: carrera,
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (x) {
+                        setState(() {
+                          carreraSeleccionada = x;
+                        });
+                        if (carreraSeleccionada == "Cualquiera") {
+                          actualizarProfesores();
+                          return;
+                        }
+                        filtrarProfesoresPorCarrera();
+                        return;
+                      },
+                    ),
+                  ],
+                )
+              //LISTA DE PROFES
+              : Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text("Profesores (${profesores.length})"),
+                          DropdownButton<String>(
+                            value: carreraSeleccionada,
+                            items: carreras
+                                .map(
+                                  (carrera) => DropdownMenuItem<String>(
+                                    child: Text(carrera),
+                                    value: carrera,
+                                  ),
+                                )
+                                .toList(),
+                            onChanged: (x) {
+                              setState(() {
+                                carreraSeleccionada = x;
+                              });
+                              if (carreraSeleccionada == "Cualquiera") {
+                                actualizarProfesores();
+                                return;
+                              }
+                              filtrarProfesoresPorCarrera();
+                              return;
+                            },
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: ListView(
+                          children: profesores
+                              .map(
+                                (profe) => ListTile(
+                                  title: Text("${profe.NOMBRE}"),
+                                  subtitle: Text("${profe.CARRERA}"),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+        ],
+      ),
+    );
   }
 
   void actualizarProfesores() async {
@@ -79,5 +146,14 @@ class _ProfesoresState extends State<Profesores> {
     });
 
     profesores.forEach((profesor) => print("${profesor.toJSON()} \n"));
+  }
+
+  void filtrarProfesoresPorCarrera() async {
+    final data = await controllerProfesor.filtrarPorCarrera(
+      carreraSeleccionada!,
+    );
+    setState(() {
+      profesores = data;
+    });
   }
 }

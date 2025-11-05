@@ -14,6 +14,13 @@ class _HorariosState extends State<Horarios> {
   List<Horario> horarios = [];
   ControllerHorario controllerHorario = ControllerHorario();
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    actualizarHorarios();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(20),
