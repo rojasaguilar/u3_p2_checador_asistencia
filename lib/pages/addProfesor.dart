@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:u3_p2_checador_asistencia/controllers/controllerProfesor.dart';
 import 'package:u3_p2_checador_asistencia/models/profesor.dart';
 
 class Addprofesor extends StatefulWidget {
@@ -11,7 +12,15 @@ class Addprofesor extends StatefulWidget {
 
 class _AddprofesorState extends State<Addprofesor> {
   TextEditingController nombreController = TextEditingController();
+  String? carreraSeleccionada;
 
+  List<String> carreras = [
+    "Sistemas",
+    "Mecatrónicia",
+    "Industrial",
+    "Arquitectura",
+    "Civil",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +48,36 @@ class _AddprofesorState extends State<Addprofesor> {
             ),
 
             SizedBox(height: 20),
+
+            //CARRERA
+            Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Carrera"),
+
+                  SizedBox(height: 5),
+
+                  DropdownButton(
+                    items: carreras
+                        .map(
+                          (carrera) => DropdownMenuItem(
+                            child: Text(carrera),
+                            value: carrera,
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (x) {
+                      setState(() {
+                        carreraSeleccionada = x;
+                      });
+                    },
+                    value: carreraSeleccionada,
+                  ),
+                ],
+              ),
+            ),
+
             SizedBox(height: 20),
 
             //BOTON AGREGAR
@@ -46,22 +85,28 @@ class _AddprofesorState extends State<Addprofesor> {
               onPressed: () {
                 if (!validarInputs()) return;
 
-                Profesor p = Profesor(NPROFESOR: NPROFESOR, NOMBRE: NOMBRE, CARRERA: CARRERA)
-                Controller().insertarMateria(m).then((r) {
+                Profesor p = Profesor(
+                  NOMBRE: nombreController.text.trim().toLowerCase(),
+                  CARRERA: carreraSeleccionada!,
+                );
+                ControllerProfesor().insertarProfesor(p).then((r) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Row(
                         children: [
                           Icon(Icons.check_outlined, color: Colors.green),
                           SizedBox(width: 4),
-                          Text("Materia agregada correctamente"),
+                          Text("Profesor agregado correctamente"),
                         ],
                       ),
                     ),
                   );
                 });
+
+                widget.onAdd();
+                Navigator.pop(context);
               },
-              child: Text("Agregar materia", style: TextStyle(fontSize: 20)),
+              child: Text("Agregar Profesor", style: TextStyle(fontSize: 20)),
             ),
           ],
         ),

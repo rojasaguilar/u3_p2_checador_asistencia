@@ -85,6 +85,8 @@ class _AddmateriaState extends State<Addmateria> {
                     ),
                   );
                 });
+                widget.onAdd();
+                Navigator.pop(context);
               },
               child: Text("Agregar materia", style: TextStyle(fontSize: 20)),
             ),
