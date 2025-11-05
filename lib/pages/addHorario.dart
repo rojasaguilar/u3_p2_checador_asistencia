@@ -27,6 +27,7 @@ class _AddhorarioState extends State<Addhorario> {
     // TODO: implement initState
     super.initState();
     obtenerProfesores();
+    obtenerMaterias();
   }
 
   @override
@@ -63,7 +64,7 @@ class _AddhorarioState extends State<Addhorario> {
 
           SizedBox(height: 20,),
 
-          //PROFESOR
+          //MATERIAS
           Container(
             child: Column(
               children: [

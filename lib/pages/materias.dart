@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:u3_p2_checador_asistencia/controllers/controllerHorario.dart';
 import 'package:u3_p2_checador_asistencia/controllers/controllerMateria.dart';
-import 'package:u3_p2_checador_asistencia/controllers/controllerProfesor.dart';
-import 'package:u3_p2_checador_asistencia/models/horario.dart';
 import 'package:u3_p2_checador_asistencia/models/materia.dart';
-import 'package:u3_p2_checador_asistencia/models/profesor.dart';
-import 'package:u3_p2_checador_asistencia/pages/addHorario.dart';
 import 'package:u3_p2_checador_asistencia/pages/addMateria.dart';
-import 'package:u3_p2_checador_asistencia/pages/addProfesor.dart';
 
 class Materias extends StatefulWidget {
   const Materias({super.key});
@@ -18,12 +12,8 @@ class Materias extends StatefulWidget {
 
 class _MateriasState extends State<Materias> {
   List<Materia> materias = [];
-  // List<Profesor> profesores = [];
-  // List<Horario> horarios = [];
 
   ControllerMateria controllerMateria = ControllerMateria();
-  // ControllerProfesor controllerProfesor = ControllerProfesor();
-  // ControllerHorario controllerHorario = ControllerHorario();
 
   @override
   void initState() {
@@ -58,56 +48,27 @@ class _MateriasState extends State<Materias> {
 
         materias.isEmpty
             ? Center(child: Text("No tienes materias registradas"))
-        //LISTA DE MATERIAS
+            //LISTA DE MATERIAS
             : Expanded(
-                child: ListView(
-                  children: materias
-                      .map(
-                        (materia) => ListTile(title: Text("${materia.NMAT}")),
-                      )
-                      .toList(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Materias (${materias.length})"),
+                    Expanded(
+                      child: ListView(
+                        children: materias
+                            .map(
+                              (materia) => ListTile(
+                                title: Text("${materia.NMAT}"),
+                                subtitle: Text("${materia.DESCRIPCION}"),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-
-        // FilledButton(
-        //   onPressed: () {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(
-        //         builder: (BuildContext co) {
-        //           return Addprofesor(
-        //             onAdd: () {
-        //               setState(() {
-        //                 actualizarProfesores();
-        //               });
-        //             },
-        //           );
-        //         },
-        //       ),
-        //     );
-        //   },
-        //   child: Text("Agregar Profesor"),
-        // ),
-        //
-        // FilledButton(
-        //   onPressed: () {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(
-        //         builder: (BuildContext co) {
-        //           return Addhorario(
-        //             onAdd: () {
-        //               setState(() {
-        //                 actualizarProfesores();
-        //               });
-        //             },
-        //           );
-        //         },
-        //       ),
-        //     );
-        //   },
-        //   child: Text("Agregar Horarios"),
-        // ),
       ],
     );
   }
@@ -121,18 +82,4 @@ class _MateriasState extends State<Materias> {
 
     materias.forEach((materia) => print("${materia.toJSON()} \n"));
   }
-
-  // void actualizarProfesores() async {
-  //   final profesoresMap = await controllerProfesor.obtenerProfesores();
-  //
-  //   profesores = profesoresMap;
-  //
-  //   profesores.forEach((profesor) => print("${profesor.toJSON()} \n"));
-  // }
-  //
-  // void actualizarHorarios() async {
-  //   horarios = await controllerHorario.obtenerHorarios();
-  //
-  //   horarios.forEach((horario) => print("${horario.toJSON()} \n"));
-  // }
 }
