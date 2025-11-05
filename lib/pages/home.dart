@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:u3_p2_checador_asistencia/pages/materias.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,7 +12,7 @@ class _HomePageState extends State<HomePage> {
   int _indice = 0;
 
   final List<Widget> _paginas = [
-    Center(child: Text("Materias", style: TextStyle(fontSize: 24))),
+   Materias(),
     Center(child: Text("Horarios", style: TextStyle(fontSize: 24))),
     Center(child: Text("Maestros", style: TextStyle(fontSize: 24))),
   ];

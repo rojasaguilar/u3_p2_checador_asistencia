@@ -18,12 +18,12 @@ class Materias extends StatefulWidget {
 
 class _MateriasState extends State<Materias> {
   List<Materia> materias = [];
-  List<Profesor> profesores = [];
-  List<Horario> horarios = [];
+  // List<Profesor> profesores = [];
+  // List<Horario> horarios = [];
 
   ControllerMateria controllerMateria = ControllerMateria();
-  ControllerProfesor controllerProfesor = ControllerProfesor();
-  ControllerHorario controllerHorario = ControllerHorario();
+  // ControllerProfesor controllerProfesor = ControllerProfesor();
+  // ControllerHorario controllerHorario = ControllerHorario();
 
   @override
   void initState() {
@@ -34,93 +34,105 @@ class _MateriasState extends State<Materias> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        children: [
-          FilledButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext co) {
-                    return Addmateria(
-                      onAdd: () {
-                        setState(() {
-                          actualizarMaterias();
-                        });
-                      },
-                    );
-                  },
-                ),
-              );
-            },
-            child: Text("Agregar materia"),
-          ),
+    return Column(
+      children: [
+        FilledButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext co) {
+                  return Addmateria(
+                    onAdd: () {
+                      setState(() {
+                        actualizarMaterias();
+                      });
+                    },
+                  );
+                },
+              ),
+            );
+          },
+          child: Text("Agregar materia"),
+        ),
 
-          FilledButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext co) {
-                    return Addprofesor(
-                      onAdd: () {
-                        setState(() {
-                          actualizarProfesores();
-                        });
-                      },
-                    );
-                  },
+        materias.isEmpty
+            ? Center(child: Text("No tienes materias registradas"))
+        //LISTA DE MATERIAS
+            : Expanded(
+                child: ListView(
+                  children: materias
+                      .map(
+                        (materia) => ListTile(title: Text("${materia.NMAT}")),
+                      )
+                      .toList(),
                 ),
-              );
-            },
-            child: Text("Agregar Profesor"),
-          ),
+              ),
 
-          FilledButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext co) {
-                    return Addhorario(
-                      onAdd: () {
-                        setState(() {
-                          actualizarProfesores();
-                        });
-                      },
-                    );
-                  },
-                ),
-              );
-            },
-            child: Text("Agregar Horarios"),
-          ),
-        ],
-      ),
+        // FilledButton(
+        //   onPressed: () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //         builder: (BuildContext co) {
+        //           return Addprofesor(
+        //             onAdd: () {
+        //               setState(() {
+        //                 actualizarProfesores();
+        //               });
+        //             },
+        //           );
+        //         },
+        //       ),
+        //     );
+        //   },
+        //   child: Text("Agregar Profesor"),
+        // ),
+        //
+        // FilledButton(
+        //   onPressed: () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //         builder: (BuildContext co) {
+        //           return Addhorario(
+        //             onAdd: () {
+        //               setState(() {
+        //                 actualizarProfesores();
+        //               });
+        //             },
+        //           );
+        //         },
+        //       ),
+        //     );
+        //   },
+        //   child: Text("Agregar Horarios"),
+        // ),
+      ],
     );
   }
 
   void actualizarMaterias() async {
     final materiasMap = await controllerMateria.obtenerMaterias();
 
-    materias = materiasMap;
+    setState(() {
+      materias = materiasMap;
+    });
 
     materias.forEach((materia) => print("${materia.toJSON()} \n"));
   }
 
-  void actualizarProfesores() async {
-    final profesoresMap = await controllerProfesor.obtenerProfesores();
-
-    profesores = profesoresMap;
-
-    profesores.forEach((profesor) => print("${profesor.toJSON()} \n"));
-  }
-
-  void actualizarHorarios() async {
-    horarios = await controllerHorario.obtenerHorarios();
-
-    horarios.forEach((horario) => print("${horario.toJSON()} \n"));
-  }
+  // void actualizarProfesores() async {
+  //   final profesoresMap = await controllerProfesor.obtenerProfesores();
+  //
+  //   profesores = profesoresMap;
+  //
+  //   profesores.forEach((profesor) => print("${profesor.toJSON()} \n"));
+  // }
+  //
+  // void actualizarHorarios() async {
+  //   horarios = await controllerHorario.obtenerHorarios();
+  //
+  //   horarios.forEach((horario) => print("${horario.toJSON()} \n"));
+  // }
 }
