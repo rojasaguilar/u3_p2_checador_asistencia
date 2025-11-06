@@ -82,6 +82,7 @@ class _MateriasState extends State<Materias> {
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 5),
                                   child: ListTile(
+                                    leading: Icon(Icons.book,color: Colors.amber[600],),
                                     title: Text(
                                       materia.NMAT,
                                       style: const TextStyle(
