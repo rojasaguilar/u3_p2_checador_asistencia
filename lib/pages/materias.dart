@@ -17,7 +17,6 @@ class _MateriasState extends State<Materias> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     actualizarMaterias();
   }
@@ -25,10 +24,15 @@ class _MateriasState extends State<Materias> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Column(
         children: [
           FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Colors.amber[600],
+              foregroundColor: Colors.black,
+              minimumSize: const Size.fromHeight(50),
+            ),
             onPressed: () {
               Navigator.push(
                 context,
@@ -45,24 +49,51 @@ class _MateriasState extends State<Materias> {
                 ),
               );
             },
-            child: Text("Agregar materia"),
+            child: const Text("Agregar materia"),
           ),
-
+          const SizedBox(height: 20),
           materias.isEmpty
-              ? Center(child: Text("No tienes materias registradas"))
+              ? const Center(
+                  child: Text(
+                  "No tienes materias registradas",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ))
               //LISTA DE MATERIAS
               : Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Materias (${materias.length})"),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Text(
+                          "Materias (${materias.length})",
+                          style: TextStyle(
+                              color: Colors.white.withOpacity(0.9),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
                       Expanded(
                         child: ListView(
                           children: materias
                               .map(
-                                (materia) => ListTile(
-                                  title: Text("${materia.NMAT}"),
-                                  subtitle: Text("${materia.DESCRIPCION}"),
+                                (materia) => Card(
+                                  color: const Color(0xFF1F1F1F),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 5),
+                                  child: ListTile(
+                                    title: Text(
+                                      materia.NMAT,
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    subtitle: Text(
+                                      materia.DESCRIPCION,
+                                      style:
+                                          TextStyle(color: Colors.grey[400]),
+                                    ),
+                                  ),
                                 ),
                               )
                               .toList(),
@@ -83,6 +114,6 @@ class _MateriasState extends State<Materias> {
       materias = materiasMap;
     });
 
-    materias.forEach((materia) => print("${materia.toJSON()} \n"));
+    // materias.forEach((materia) => print("${materia.toJSON()} \n"));
   }
 }

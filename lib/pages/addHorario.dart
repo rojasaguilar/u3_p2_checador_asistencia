@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:u3_p2_checador_asistencia/controllers/controllerHorario.dart';
 import 'package:u3_p2_checador_asistencia/controllers/controllerMateria.dart';
@@ -64,10 +65,10 @@ class _AddhorarioState extends State<Addhorario> {
                     items: profesores
                         .map(
                           (profesor) => DropdownMenuItem<Profesor>(
-                            child: Text(profesor.NOMBRE),
-                            value: profesor,
-                          ),
-                        )
+                        child: Text(profesor.NOMBRE),
+                        value: profesor,
+                      ),
+                    )
                         .toList(),
                     onChanged: (x) {
                       setState(() {
@@ -91,10 +92,10 @@ class _AddhorarioState extends State<Addhorario> {
                     items: materias
                         .map(
                           (materia) => DropdownMenuItem<Materia>(
-                            child: Text(materia.NMAT),
-                            value: materia,
-                          ),
-                        )
+                        child: Text(materia.NMAT),
+                        value: materia,
+                      ),
+                    )
                         .toList(),
                     onChanged: (x) {
                       setState(() {
@@ -126,8 +127,8 @@ class _AddhorarioState extends State<Addhorario> {
               items: edificiosAulas.keys
                   .map(
                     (edi) =>
-                        DropdownMenuItem<String>(child: Text(edi), value: edi),
-                  )
+                    DropdownMenuItem<String>(child: Text(edi), value: edi),
+              )
                   .toList(),
               onChanged: (x) {
                 setState(() {
@@ -139,16 +140,16 @@ class _AddhorarioState extends State<Addhorario> {
             //SALON
             DropdownButton<String>(
               value:
-                  (salon != null &&
-                      edificiosAulas[edificio]?.contains(salon) == true)
+              (salon != null &&
+                  edificiosAulas[edificio]?.contains(salon) == true)
                   ? salon
                   : null, // Evita error si el salón anterior ya no existe
               hint: const Text("Selecciona un salón"),
               items: (edificio == null || edificio!.isEmpty)
                   ? []
                   : edificiosAulas[edificio]!.map((s) {
-                      return DropdownMenuItem<String>(value: s, child: Text(s));
-                    }).toList(),
+                return DropdownMenuItem<String>(value: s, child: Text(s));
+              }).toList(),
               onChanged: (x) {
                 setState(() {
                   salon = x;

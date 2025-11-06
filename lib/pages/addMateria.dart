@@ -11,84 +11,64 @@ class Addmateria extends StatefulWidget {
 }
 
 class _AddmateriaState extends State<Addmateria> {
-  TextEditingController nmateriaController = TextEditingController();
-  TextEditingController descController = TextEditingController();
+  ControllerMateria controllerMateria = ControllerMateria();
+
+  final TextEditingController nmatController = TextEditingController();
+  final TextEditingController descripcionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("")),
+      backgroundColor: const Color(0xFF121212),
+      appBar: AppBar(
+        title: const Text("Agregar Materia", style: TextStyle(color: Colors.white)),
+        backgroundColor: const Color(0xFF1F1F1F),
+        iconTheme: const IconThemeData(color: Colors.white),
+        elevation: 0,
+      ),
       body: Padding(
-        padding: EdgeInsets.all(20),
-        child: Column(
+        padding: const EdgeInsets.all(20.0),
+        child: ListView(
           children: [
-            //nombre materia
-            Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Nombre de la materia"),
-
-                  SizedBox(height: 5),
-
-                  TextField(
-                    controller: nmateriaController,
-                    decoration: InputDecoration(hintText: "Materia"),
-                  ),
-                ],
-              ),
+            _buildTextField(
+              controller: nmatController,
+              labelText: "Clave de la materia (NMAT)",
+              icon: Icons.vpn_key_outlined,
             ),
-
-            SizedBox(height: 20),
-
-            //descripcion
-            Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Descripcion de la materia"),
-
-                  SizedBox(height: 5),
-
-                  TextField(
-                    controller: descController,
-                    decoration: InputDecoration(hintText: "Descripcion"),
-                    minLines: 3,
-                    maxLines: 5,
-                    maxLength: 220,
-                  ),
-                ],
-              ),
+            const SizedBox(height: 15),
+            _buildTextField(
+              controller: descripcionController,
+              labelText: "Descripción",
+              icon: Icons.description_outlined,
             ),
-
-            SizedBox(height: 20),
-
-            //BOTON AGREGAR
+            const SizedBox(height: 40),
             FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.amber[600],
+                foregroundColor: Colors.black,
+                minimumSize: const Size.fromHeight(50),
+              ),
               onPressed: () {
                 if (!validarInputs()) return;
 
                 Materia m = Materia(
-                  NMAT: nmateriaController.text.toLowerCase().trim(),
-                  DESCRIPCION: descController.text.toLowerCase().trim(),
+                  NMAT: nmatController.text,
+                  DESCRIPCION: descripcionController.text,
                 );
-                ControllerMateria().insertarMateria(m).then((r) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Row(
-                        children: [
-                          Icon(Icons.check_outlined, color: Colors.green),
-                          SizedBox(width: 4),
-                          Text("Materia agregada correctamente"),
-                        ],
-                      ),
-                    ),
-                  );
+
+                controllerMateria.insertarMateria(m).then((r) {
+                  if (r < 1) {
+                    _showSnackBar(
+                        "No se pudo registrar la materia", Icons.cancel_outlined, Colors.red);
+                    return;
+                  }
+                  _showSnackBar(
+                      "Materia registrada correctamente", Icons.check_outlined, Colors.green);
+                  widget.onAdd();
+                  Navigator.pop(context);
                 });
-                widget.onAdd();
-                Navigator.pop(context);
               },
-              child: Text("Agregar materia", style: TextStyle(fontSize: 20)),
+              child: const Text("Agregar Materia"),
             ),
           ],
         ),
@@ -96,14 +76,58 @@ class _AddmateriaState extends State<Addmateria> {
     );
   }
 
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String labelText,
+    required IconData icon,
+  }) {
+    return TextFormField(
+      controller: controller,
+      style: const TextStyle(color: Colors.white),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: const Color(0xFF1F1F1F),
+        prefixIcon: Icon(icon, color: Colors.grey[400]),
+        labelText: labelText,
+        labelStyle: TextStyle(color: Colors.grey[600]),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: Colors.grey[800]!),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: Colors.amber[600]!),
+        ),
+      ),
+    );
+  }
+
+  void _showSnackBar(String message, IconData icon, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: const Color(0xFF1F1F1F),
+        content: Row(
+          children: [
+            Icon(icon, color: color),
+            const SizedBox(width: 8),
+            Text(message, style: const TextStyle(color: Colors.white)),
+          ],
+        ),
+      ),
+    );
+  }
+
   bool validarInputs() {
-    if (nmateriaController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Debes ingresar un nombre para la materia")),
-      );
+    if (nmatController.text.isEmpty) {
+      _showSnackBar(
+          "La clave de la materia es obligatoria", Icons.warning_amber_rounded, Colors.amber);
       return false;
     }
-
+    if (descripcionController.text.isEmpty) {
+      _showSnackBar(
+          "La descripción de la materia es obligatoria", Icons.warning_amber_rounded, Colors.amber);
+      return false;
+    }
     return true;
   }
 }

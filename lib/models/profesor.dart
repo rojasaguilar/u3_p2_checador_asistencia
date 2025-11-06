@@ -1,3 +1,4 @@
+
 import 'dart:math';
 
 class Profesor {
@@ -6,7 +7,7 @@ class Profesor {
   String CARRERA;
 
   Profesor({required this.NOMBRE, required this.CARRERA})
-    : NPROFESOR = _generarProfesorId(NOMBRE, CARRERA);
+      : NPROFESOR = _generarProfesorId(NOMBRE, CARRERA);
 
   Profesor._fromDB(this.NPROFESOR, this.NOMBRE, this.CARRERA);
 
