@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:u3_p2_checador_asistencia/models/profesor.dart';
 import 'package:u3_p2_checador_asistencia/controllers/controllerProfesor.dart';
 import 'package:u3_p2_checador_asistencia/pages/addProfesor.dart';
+import 'package:u3_p2_checador_asistencia/pages/pageProfe.dart';
 
 class Profesores extends StatefulWidget {
   const Profesores({super.key});
@@ -18,7 +19,7 @@ class _ProfesoresState extends State<Profesores> {
 
   List<String> carreras = [
     "Sistemas",
-    "Mecatrónicia",
+    "Mecatrónica",
     "Industrial",
     "Arquitectura",
     "Civil",
@@ -189,6 +190,19 @@ class _ProfesoresState extends State<Profesores> {
                           children: profesores
                               .map(
                                 (profe) => ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (b) => Pageprofe(
+                                          profe: profe,
+                                          onUpdate: () {
+                                            actualizarProfesores();
+                                          },
+                                        ),
+                                      ),
+                                    );
+                                  },
                                   title: Text(
                                     "${profe.NOMBRE}",
                                     style: TextStyle(color: Colors.white),
