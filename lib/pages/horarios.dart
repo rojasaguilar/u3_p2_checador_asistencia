@@ -49,6 +49,11 @@ class _HorariosState extends State<Horarios> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Colors.amber[600],
+              foregroundColor: Colors.black,
+              minimumSize: const Size.fromHeight(50),
+            ),
             onPressed: () {
               Navigator.push(
                 context,
@@ -57,7 +62,7 @@ class _HorariosState extends State<Horarios> {
                 ),
               );
             },
-            child: const Text("Agregar Horarios"),
+            child: const Text("Agregar Horario"),
           ),
 
           const SizedBox(height: 10),
@@ -67,7 +72,7 @@ class _HorariosState extends State<Horarios> {
 
           const SizedBox(height: 10),
 
-          Text("Horarios (${horarios.length})"),
+          Text("Horarios (${horarios.length})", style: TextStyle(color: Colors.white),),
 
           const SizedBox(height: 10),
 
@@ -124,7 +129,7 @@ class _HorariosState extends State<Horarios> {
                 });
                 actualizarHorarios();
               },
-              icon: const Icon(CupertinoIcons.xmark, size: 16),
+              icon: const Icon(CupertinoIcons.xmark, size: 16, color: Colors.white,),
             ),
           ],
         ),
@@ -135,16 +140,17 @@ class _HorariosState extends State<Horarios> {
   // Dropdown: Asistencia/Falta
   Widget _dropdownAsistencia() {
     return DropdownButton<int>(
-      hint: const Text("Asistencia/Falta", style: TextStyle(fontSize: 12)),
+      dropdownColor: Colors.amber[600],
+      hint: const Text("Asistencia/Falta", style: TextStyle(fontSize: 12, color: Colors.white)),
       value: asistencia,
       items: const [
         DropdownMenuItem(
           value: 1,
-          child: Text("ASISTENCIA", style: TextStyle(fontSize: 11)),
+          child: Text("ASISTENCIA", style: TextStyle(fontSize: 11, color: Colors.white)),
         ),
         DropdownMenuItem(
           value: 0,
-          child: Text("FALTA", style: TextStyle(fontSize: 11)),
+          child: Text("FALTA", style: TextStyle(fontSize: 11, color: Colors.white)),
         ),
       ],
       onChanged: (v) {
@@ -162,13 +168,14 @@ class _HorariosState extends State<Horarios> {
     required Function(String?) onChange,
   }) {
     return DropdownButton<String>(
-      hint: Text(label, style: const TextStyle(fontSize: 12)),
+      dropdownColor: Colors.amber[600],
+      hint: Text(label, style: const TextStyle(fontSize: 12, color: Colors.white)),
       value: value,
       items: lista
           .map(
             (item) => DropdownMenuItem(
               value: item,
-              child: Text(item, style: const TextStyle(fontSize: 11)),
+              child: Text(item, style: const TextStyle(fontSize: 11, color: Colors.white)),
             ),
           )
           .toList(),

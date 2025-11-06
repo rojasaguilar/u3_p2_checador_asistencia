@@ -21,7 +21,10 @@ class _AddmateriaState extends State<Addmateria> {
     return Scaffold(
       backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
-        title: const Text("Agregar Materia", style: TextStyle(color: Colors.white)),
+        title: const Text(
+          "Agregar Materia",
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: const Color(0xFF1F1F1F),
         iconTheme: const IconThemeData(color: Colors.white),
         elevation: 0,
@@ -32,8 +35,8 @@ class _AddmateriaState extends State<Addmateria> {
           children: [
             _buildTextField(
               controller: nmatController,
-              labelText: "Clave de la materia (NMAT)",
-              icon: Icons.vpn_key_outlined,
+              labelText: "Nombre de la materia (NMAT)",
+              icon: Icons.book_outlined,
             ),
             const SizedBox(height: 15),
             _buildTextField(
@@ -59,11 +62,17 @@ class _AddmateriaState extends State<Addmateria> {
                 controllerMateria.insertarMateria(m).then((r) {
                   if (r < 1) {
                     _showSnackBar(
-                        "No se pudo registrar la materia", Icons.cancel_outlined, Colors.red);
+                      "No se pudo registrar la materia",
+                      Icons.cancel_outlined,
+                      Colors.red,
+                    );
                     return;
                   }
                   _showSnackBar(
-                      "Materia registrada correctamente", Icons.check_outlined, Colors.green);
+                    "Materia registrada correctamente",
+                    Icons.check_outlined,
+                    Colors.green,
+                  );
                   widget.onAdd();
                   Navigator.pop(context);
                 });
@@ -120,12 +129,18 @@ class _AddmateriaState extends State<Addmateria> {
   bool validarInputs() {
     if (nmatController.text.isEmpty) {
       _showSnackBar(
-          "La clave de la materia es obligatoria", Icons.warning_amber_rounded, Colors.amber);
+        "El nombre de la materia es obligatoria",
+        Icons.warning_amber_rounded,
+        Colors.amber,
+      );
       return false;
     }
     if (descripcionController.text.isEmpty) {
       _showSnackBar(
-          "La descripción de la materia es obligatoria", Icons.warning_amber_rounded, Colors.amber);
+        "La descripción de la materia es obligatoria",
+        Icons.warning_amber_rounded,
+        Colors.amber,
+      );
       return false;
     }
     return true;
