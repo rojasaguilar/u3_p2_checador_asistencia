@@ -21,6 +21,8 @@ class _HorariosState extends State<Horarios> {
   List<String> materias = [];
   List<String> profesores = [];
 
+  // List<dynamic> filtros = [];
+
   int? asistencia;
   String? profesor;
   String? materia;
@@ -92,7 +94,7 @@ class _HorariosState extends State<Horarios> {
                                   setState(() {
                                     asistencia = x;
                                   });
-                                  print(asistencia);
+                                  _filtrarMaterias();
                                 },
                               ),
 
@@ -172,6 +174,14 @@ class _HorariosState extends State<Horarios> {
     final data = await controllerMateria.obtenerMaterias();
     setState(() {
       data.forEach((materia) => materias.add(materia.NMAT));
+    });
+  }
+
+  void _filtrarMaterias() async {
+    final data = await   controllerHorario.filtrarHorario([asistencia, profesor, materia]);
+    data.forEach((horario) => print(horario));
+    setState(() {
+      horarios = data;
     });
   }
 }

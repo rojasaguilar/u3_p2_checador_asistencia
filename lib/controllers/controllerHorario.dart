@@ -39,22 +39,15 @@ class ControllerHorario {
 
   Future<List<Map<String, dynamic>>> filtrarHorario(List<dynamic> filtros) async {
     final db = await _bd.conectarDB();
-    // final data = await db.rawQuery('''
-    // SELECT h.NHORARIO, h.HORA, h.EDIFICIO, h.NMAT, h.SALON, p.NOMBRE, a.ASISTENCIA
-    // FROM HORARIO h
-    // INNER JOIN PROFESOR p ON (p.NPROFESOR = h.NPROFESOR)
-    // INNER JOIN ASISTENCIA a ON (a.NHORARIO = h.NHORARIO)
-    // WHERE a.ASISTENCIA = ? AND p.NOMBRE = ? AND h.NAMT = ?
-    // ''', filtros);
 
     final data = await db.rawQuery('''
   SELECT h.NHORARIO, h.HORA, h.EDIFICIO, h.NMAT, h.SALON, p.NOMBRE, a.ASISTENCIA
   FROM HORARIO h
   INNER JOIN PROFESOR p ON (p.NPROFESOR = h.NPROFESOR)
   INNER JOIN ASISTENCIA a ON (a.NHORARIO = h.NHORARIO)
-  WHERE (a.ASISTENCIA = ? OR ? IS NULL)
-    AND (p.NOMBRE = ? OR ? IS NULL)
-    AND (h.NMAT = ? OR ? IS NULL)
+  WHERE (a.ASISTENCIA = ?)
+    AND (p.NOMBRE = ? )
+    AND (h.NMAT = ?)
 ''', filtros);
 
     return data;
