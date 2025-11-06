@@ -36,4 +36,21 @@ class ControllerHorario {
     ''', []);
     return data;
   }
+
+  Future<int> modificarAsistencia(
+    int NHORARIO,
+    String FECHA,
+    int ASISTENCIA,
+  ) async {
+    final db = await _bd.conectarDB();
+    return await db.rawUpdate(
+      '''
+    UPDATE ASISTENCIA SET 
+    FECHA = ?,
+    ASISTENCIA = ?
+    WHERE NHORARIO = ?
+    ''',
+      [FECHA, ASISTENCIA, NHORARIO],
+    );
+  }
 }

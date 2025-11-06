@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:u3_p2_checador_asistencia/pages/addMateria.dart';
 import 'package:u3_p2_checador_asistencia/pages/home.dart';
 import 'package:u3_p2_checador_asistencia/pages/materias.dart';
 

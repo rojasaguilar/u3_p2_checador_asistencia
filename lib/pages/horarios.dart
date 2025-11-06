@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:u3_p2_checador_asistencia/components/horarioCard.dart';
 import 'package:u3_p2_checador_asistencia/controllers/controllerHorario.dart';
 import 'package:u3_p2_checador_asistencia/pages/PageHorario.dart';
 import 'package:u3_p2_checador_asistencia/pages/addHorario.dart';
@@ -59,124 +60,9 @@ class _HorariosState extends State<Horarios> {
                           padding: EdgeInsets.symmetric(vertical: 10),
                           children: horarios
                               .map(
-                                (horario) => GestureDetector(
-                                  onTap: () {
-                                    //MANDAR A HORARIO
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (b) => Pagehorario(
-                                          horario: horario,
-                                          onUpdate: () {
-                                            actualizarHorarios();
-                                          },
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.all(12),
-                                    margin: EdgeInsets.only(bottom: 10),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(18),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.shade200,
-                                          spreadRadius: 1.5,
-                                        ),
-                                      ],
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        //HORA Y MATERIA
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            //HORA
-                                            Row(
-                                              children: [
-                                                Icon(Icons.timer),
-                                                SizedBox(width: 6),
-                                                Text(horario['HORA']),
-                                              ],
-                                            ),
-                                            //MATERIA
-                                            Container(
-                                              padding: EdgeInsets.all(10),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                color: Colors.amberAccent[100],
-                                              ),
-                                              child: Text(
-                                                horario['NMAT'],
-                                                style: TextStyle(fontSize: 11),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        //PROFESOR
-                                        Row(
-                                          children: [
-                                            Icon(Icons.person_outline),
-                                            SizedBox(width: 6),
-                                            Text(horario['NOMBRE']),
-                                          ],
-                                        ),
-                                        //EDIFICIO Y SALON
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  CupertinoIcons
-                                                      .building_2_fill,
-                                                ),
-                                                SizedBox(width: 6),
-                                                Text(
-                                                  "${horario['EDIFICIO']} - ${horario['SALON']}",
-                                                ),
-                                              ],
-                                            ),
-                                            Container(
-                                              padding: EdgeInsets.all(10),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                              ),
-                                              child:
-                                                  horario['ASISTENCIA'] == null
-                                                  ? Text(
-                                                      "Pendiente \n asistencia",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                        fontSize: 11,
-                                                        color:
-                                                            Colors.amber[700],
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    )
-                                                  : Text(
-                                                      horario['ASISTENCIA'],
-                                                      style: TextStyle(
-                                                        fontSize: 11,
-                                                      ),
-                                                    ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                (horario) => Horariocard(onUpdate: (){
+                                  actualizarHorarios();
+                                }, horario: horario)
                               )
                               .toList(),
                         ),
@@ -195,5 +81,9 @@ class _HorariosState extends State<Horarios> {
     setState(() {
       horarios = data;
     });
+  }
+
+  String _parseAsistencia(int asistencia) {
+    return asistencia == 1 ? "ASISTENCIA" : 'FALTA';
   }
 }

@@ -4,7 +4,7 @@ import 'package:path/path.dart';
 class BD {
   Future<Database> conectarDB() async {
     return openDatabase(
-      join(await getDatabasesPath(), 'checador1_2.db'),
+      join(await getDatabasesPath(), 'checador1_3.db'),
       version: 1,
       onConfigure: (db) async => await db.execute('PRAGMA foreign_keys = ON'),
       onCreate: (db, version) async {

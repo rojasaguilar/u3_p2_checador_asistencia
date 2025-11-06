@@ -1,4 +1,3 @@
-import 'package:sqflite/sqflite.dart';
 import 'package:u3_p2_checador_asistencia/models/materia.dart';
 import 'package:u3_p2_checador_asistencia/utils/basedatos.dart';
 
